@@ -1,0 +1,30 @@
+image: ponders/godot-cpp-ci:latest
+
+stages:
+  - build
+  # - testing
+  - package
+
+build:linux_editor:
+  stage: build
+  script:
+    - scons platform=linuxbsd tools=yes target=editor tests=yes
+
+  artifacts:
+    paths:
+      - bin/*
+
+# test case keep failing because X11 display is not available
+# test:linux_editor:
+#   stage: testing
+#   script: 
+#     - ./build/godot.linuxbsd.editor.x86_64 --test
+
+package:linux_editor:
+  stage: package
+  script: 
+    - apt-get update && apt-get -y install tar gzip
+    - tar cf godot.tar.gz bin/* --gzip
+  artifacts:
+    paths:
+      - godot.tar.gz
