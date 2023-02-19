@@ -8,7 +8,7 @@ stages:
 build:linux_editor:
   stage: build
   script:
-    - scons platform=linuxbsd tools=yes target=editor tests=yes
+    - scons platform=linuxbsd tools=yes target=editor tests=yes -j$(nproc)
 
   artifacts:
     paths:
